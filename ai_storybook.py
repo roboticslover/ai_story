@@ -1,19 +1,10 @@
 import streamlit as st
 from openai import OpenAI
-import os
-from dotenv import load_dotenv
 import textwrap
 import json
 
-# Load environment variables from .env file
-load_dotenv()
-
-# Setup OpenAI client
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-
-if not client.api_key:
-    st.error("Please set your OpenAI key in the environment variable 'OPENAI_API_KEY'.")
-    st.stop()
+# Initialize OpenAI client with the API key from Streamlit secrets
+client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 
 def generate_story(prompt):
     """
@@ -26,7 +17,7 @@ def generate_story(prompt):
                 {"role": "system", "content": "You are a creative storyteller. Create a very short story in 3 sentences."},
                 {"role": "user", "content": prompt}
             ],
-            max_tokens=100,  # Reduced token count for shorter stories
+            max_tokens=100,
             temperature=0.7
         )
         story = response.choices[0].message.content.strip()
