@@ -1,2 +1,4 @@
-﻿openai
 streamlit
+openai
+python-dotenv
+Pillow
